@@ -1,5 +1,11 @@
 import { createContext, useReducer } from "react";
-import { InStkWth, DecStkWth, ChangeColor } from "./Types";
+import {
+  InStkWth,
+  DecStkWth,
+  ChangeColor,
+  EraserModeOn,
+  EraserModeOff,
+} from "./Types";
 
 const initialState = {
   color: "black",
@@ -23,6 +29,16 @@ const StateProvider = ({ children }) => {
       case DecStkWth:
         if (initialState["strokeWidth"] - 1 <= 1) return initialState;
         initialState["strokeWidth"]--;
+        return initialState;
+
+      case EraserModeOn:
+        initialState["strokeWidth"] += 50;
+        initialState["color"] = "white";
+        return initialState;
+
+      case EraserModeOff:
+        initialState["strokeWidth"] = action.payload.stroke;
+        initialState["color"] = action.payload.color;
         return initialState;
 
       default:

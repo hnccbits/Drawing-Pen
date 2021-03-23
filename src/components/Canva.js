@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { store } from "../store/store";
 
-export default function Canva() {
+export default function Canva({ sheetNumber }) {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -48,6 +48,19 @@ export default function Canva() {
     contextRef.current.stroke();
   };
 
+  const downloadCanva = (key) => {
+    const canvas = document.getElementsByTagName("canvas");
+    const imageData = canvas[key].toDataURL("image/png");
+
+    const downloadLink = document.createElement("a");
+    downloadLink.download = "canava-image.png";
+    downloadLink.href = imageData;
+
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  };
+
   return (
     <div>
       <canvas
@@ -57,6 +70,12 @@ export default function Canva() {
         ref={canvasRef}
         className="drawing-sheet"
       />
+      <button
+        onClick={() => downloadCanva(sheetNumber)}
+        className="btn btn-primary btn-md"
+      >
+        Download
+      </button>
     </div>
   );
 }

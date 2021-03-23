@@ -9,7 +9,7 @@ function App() {
   const [sheets, setSheets] = useState(state.sheets);
   const canvas = [];
   for (let i = 0; i < sheets; i++) {
-    canvas.push(<Canva key={i} />);
+    canvas.push(<Canva key={i} sheetNumber={i} />);
   }
 
   const getSheets = (count) => {

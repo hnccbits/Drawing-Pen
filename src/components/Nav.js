@@ -1,11 +1,18 @@
 import React, { useContext, useState } from "react";
 import { store } from "../store/store";
-import { ChangeColor, DecStkWth, InStkWth } from "../store/Types";
+import {
+  ChangeColor,
+  DecStkWth,
+  EraserModeOff,
+  EraserModeOn,
+  InStkWth,
+} from "../store/Types";
 
 export default function Nav({ getSheets, sheetCount }) {
   const { state, dispatch } = useContext(store);
   const [stroke, setStroke] = useState(state.strokeWidth);
   const [color, setColor] = useState("black");
+  const [eraserMode, setEraserMode] = useState(true);
 
   const handleSheets = (change) => {
     if (change + sheetCount <= 1) getSheets(1);
@@ -15,6 +22,13 @@ export default function Nav({ getSheets, sheetCount }) {
     }
   };
 
+  const handleEraser = () => {
+    if (eraserMode) {
+      dispatch({ type: EraserModeOn });
+    } else {
+      dispatch({ type: EraserModeOff, payload: { stroke, color } });
+    }
+  };
   return (
     <div className="sticky-top">
       <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
@@ -86,6 +100,18 @@ export default function Nav({ getSheets, sheetCount }) {
                   dispatch({ type: ChangeColor, payload: e.target.value });
                 }}
               ></input>
+            </li>
+            <li className="nav-item">
+              <button
+                className="btn btn-primary btn-md"
+                style={{ margin: "0 1rem" }}
+                onClick={() => {
+                  handleEraser();
+                  setEraserMode(!eraserMode);
+                }}
+              >
+                {`${eraserMode ? "Eraser Mode Off" : "Eraser Mode On"}`}
+              </button>
             </li>
           </ul>
         </div>
