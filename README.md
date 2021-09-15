@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### Warning
+
+This project have two repositories [origin](https://github.com/Zeeshan-2k1/Drawing-Tool), and [upstream](https://github.com/hnccbits/Drawing-Pen) (`remote names`).
+
 ## Available Scripts
 
 In the project directory, you can run:
