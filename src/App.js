@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
-import "./App.css";
-import Canva from "./components/Canva";
-import Nav from "./components/Nav";
-import { store } from "./store/store";
+import React, { useContext, useState } from 'react';
+import './App.css';
+import Canva from './components/Canva';
+import Sidebar from './components/Sidebar';
+import { store } from './store/store';
+import './assets/css/styles.css';
 
 function App() {
   const { state } = useContext(store);
@@ -17,10 +18,10 @@ function App() {
   };
 
   return (
-    <div style={{ position: "relative" }}>
-      <Nav getSheets={getSheets} sheetCount={sheets} />
-      {canvas}
-    </div>
+    <main style={{ position: 'relative' }}>
+      <Sidebar getSheets={getSheets} sheetCount={sheets} />
+      <section className="canvas">{canvas}</section>
+    </main>
   );
 }
 

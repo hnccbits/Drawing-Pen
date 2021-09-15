@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { store } from "../store/store";
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { store } from '../store/store';
 
 export default function Canva({ sheetNumber }) {
   const canvasRef = useRef(null);
@@ -10,18 +10,18 @@ export default function Canva({ sheetNumber }) {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = window.innerWidth * 1.984;
-    canvas.height = window.innerHeight * 1.9;
-    canvas.style.width = `${window.innerWidth * 0.992}px`;
-    canvas.style.height = `${window.innerHeight * 0.95}px`;
-    canvas.style.border = "2px solid black";
+    canvas.width = window.innerWidth * 1.68;
+    canvas.height = window.innerHeight * 2;
+    canvas.style.width = `${window.innerWidth * 0.84}px`;
+    canvas.style.height = `${window.innerHeight * 1}px`;
+    canvas.style.border = '1px solid black';
 
-    canvasRef.current.getContext("2d").scale(2, 2);
-    canvasRef.current.getContext("2d").lineCap = "round";
+    canvasRef.current.getContext('2d').scale(2, 2);
+    canvasRef.current.getContext('2d').lineCap = 'round';
   }, []);
 
   useEffect(() => {
-    const context = canvasRef.current.getContext("2d");
+    const context = canvasRef.current.getContext('2d');
     context.lineWidth = globalState.state.strokeWidth;
     context.strokeStyle = globalState.state.color;
     contextRef.current = context;
@@ -49,11 +49,11 @@ export default function Canva({ sheetNumber }) {
   };
 
   const downloadCanva = (key) => {
-    const canvas = document.getElementsByTagName("canvas");
-    const imageData = canvas[key].toDataURL("image/png");
+    const canvas = document.getElementsByTagName('canvas');
+    const imageData = canvas[key].toDataURL('image/png');
 
-    const downloadLink = document.createElement("a");
-    downloadLink.download = "canava-image.png";
+    const downloadLink = document.createElement('a');
+    downloadLink.download = 'canava-image.png';
     downloadLink.href = imageData;
 
     document.body.appendChild(downloadLink);
@@ -62,20 +62,22 @@ export default function Canva({ sheetNumber }) {
   };
 
   return (
-    <div>
+    <div style={{ position: 'relative' }}>
       <canvas
         onMouseDown={startDrawing}
         onMouseUp={finishDrawing}
         onMouseMove={draw}
         ref={canvasRef}
-        className="drawing-sheet"
       />
-      <button
-        onClick={() => downloadCanva(sheetNumber)}
-        className="btn btn-primary btn-md"
-      >
-        Download
-      </button>
+      <div className="floating__box">
+        <h4>{sheetNumber + 1}</h4>
+        <button
+          onClick={() => downloadCanva(sheetNumber)}
+          className="btn-secondary-lg btn-secondary-sm"
+        >
+          Download
+        </button>
+      </div>
     </div>
   );
 }

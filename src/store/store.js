@@ -1,14 +1,14 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer } from 'react';
 import {
   InStkWth,
   DecStkWth,
   ChangeColor,
   EraserModeOn,
   EraserModeOff,
-} from "./Types";
+} from './Types';
 
 const initialState = {
-  color: "black",
+  color: '#000',
   strokeWidth: 5,
   sheets: 1,
 };
@@ -19,26 +19,26 @@ const StateProvider = ({ children }) => {
   const [state, dispatch] = useReducer((state, action) => {
     switch (action.type) {
       case ChangeColor:
-        initialState["color"] = action.payload;
+        initialState['color'] = action.payload;
         return initialState;
 
       case InStkWth:
-        initialState["strokeWidth"]++;
+        initialState['strokeWidth']++;
         return initialState;
 
       case DecStkWth:
-        if (initialState["strokeWidth"] - 1 <= 1) return initialState;
-        initialState["strokeWidth"]--;
+        if (initialState['strokeWidth'] - 1 <= 1) return initialState;
+        initialState['strokeWidth']--;
         return initialState;
 
       case EraserModeOn:
-        initialState["strokeWidth"] += 50;
-        initialState["color"] = "white";
+        initialState['strokeWidth'] += 50;
+        initialState['color'] = 'white';
         return initialState;
 
       case EraserModeOff:
-        initialState["strokeWidth"] = action.payload.stroke;
-        initialState["color"] = action.payload.color;
+        initialState['strokeWidth'] = action.payload.stroke;
+        initialState['color'] = action.payload.color;
         return initialState;
 
       default:
