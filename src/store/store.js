@@ -5,10 +5,10 @@ import {
   ChangeColor,
   EraserModeOn,
   EraserModeOff,
-} from './Types';
+} from '../utils/Types';
 
 const initialState = {
-  color: '#000',
+  color: '#000000',
   strokeWidth: 5,
   sheets: 1,
 };
@@ -33,7 +33,7 @@ const StateProvider = ({ children }) => {
 
       case EraserModeOn:
         initialState['strokeWidth'] += 50;
-        initialState['color'] = 'white';
+        initialState['color'] = '#ffffff';
         return initialState;
 
       case EraserModeOff:

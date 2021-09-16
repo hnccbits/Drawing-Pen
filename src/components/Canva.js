@@ -1,12 +1,72 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useCallback } from 'react';
+import { useParams } from 'react-router';
+import { io } from 'socket.io-client';
 import { store } from '../store/store';
+import MTYPES from '../utils/MTypes';
+import CreateNotifications from '../utils/Notification';
+
+const ENDPOINT = 'http://localhost:5000';
 
 export default function Canva({ sheetNumber }) {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [socket, setSocket] = useState();
+  const { id: drawId } = useParams();
 
-  const globalState = useContext(store);
+  const { state } = useContext(store);
+
+  useEffect(() => {
+    const s = io(ENDPOINT);
+    setSocket(s);
+
+    return () => s.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.once('loadDrawing', (data) => {
+      CreateNotifications(MTYPES.success, 'Securely Connected');
+    });
+
+    socket.emit('getDrawing', drawId);
+  }, [socket, drawId]);
+
+  const draw = useCallback(
+    ({ nativeEvent }) => {
+      const context = canvasRef.current.getContext('2d');
+      if (!isDrawing) {
+        return;
+      }
+      const { offsetX, offsetY } = nativeEvent;
+      context.strokeStyle = state.color;
+      contextRef.current.lineTo(offsetX, offsetY);
+      contextRef.current.stroke();
+
+      socket.emit('sendData', {
+        offsetX,
+        offsetY,
+        sheet: sheetNumber,
+        color: state.color,
+      });
+    },
+    [isDrawing, sheetNumber, socket, state.color]
+  );
+
+  useEffect(() => {
+    if (!socket) return;
+    const context = canvasRef.current.getContext('2d');
+
+    socket.on('recieveData', ({ offsetX, offsetY, sheet, color }) => {
+      if (sheet === sheetNumber) {
+        contextRef.current.lineTo(offsetX, offsetY);
+        context.strokeStyle = color;
+        contextRef.current.stroke();
+      }
+    });
+  }, [socket, sheetNumber, draw]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -22,10 +82,10 @@ export default function Canva({ sheetNumber }) {
 
   useEffect(() => {
     const context = canvasRef.current.getContext('2d');
-    context.lineWidth = globalState.state.strokeWidth;
-    context.strokeStyle = globalState.state.color;
+    context.lineWidth = state.strokeWidth;
+    context.strokeStyle = state.color;
     contextRef.current = context;
-  }, [globalState.state.strokeWidth, globalState.state.color]);
+  }, [state.color, state.strokeWidth]);
 
   const startDrawing = ({ nativeEvent }) => {
     const { offsetX, offsetY } = nativeEvent;
@@ -37,15 +97,6 @@ export default function Canva({ sheetNumber }) {
   const finishDrawing = () => {
     contextRef.current.closePath();
     setIsDrawing(false);
-  };
-
-  const draw = ({ nativeEvent }) => {
-    if (!isDrawing) {
-      return;
-    }
-    const { offsetX, offsetY } = nativeEvent;
-    contextRef.current.lineTo(offsetX, offsetY);
-    contextRef.current.stroke();
   };
 
   const downloadCanva = (key) => {

@@ -6,13 +6,13 @@ import {
   EraserModeOff,
   EraserModeOn,
   InStkWth,
-} from '../store/Types';
+} from '../utils/Types';
 import Logo from '../assets/images/Logo.png';
 
-const Sidebar = ({ getSheets, sheetCount }) => {
+const Sidebar = ({ getSheets, sheetCount, openModal }) => {
   const { state, dispatch } = useContext(store);
   const [stroke, setStroke] = useState(state.strokeWidth);
-  const [color, setColor] = useState('#000');
+  const [color, setColor] = useState('#000000');
   const [eraserMode, setEraserMode] = useState(true);
 
   const handleSheets = (change) => {

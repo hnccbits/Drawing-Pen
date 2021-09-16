@@ -64,6 +64,68 @@ button {
   margin-bottom: 0.5rem;
 }
 
+/* Input */
+.input {
+  position: relative;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.input label {
+  position: absolute;
+  top: -20%;
+  left: 5%;
+  font-size: 1.1rem;
+  color: #aaa;
+  background-color: #fff;
+  padding: 0 0.5rem;
+}
+
+.input input {
+  width: 90%;
+  padding: 1rem 0;
+  border: none;
+  outline: none;
+  font-size: 1.2rem;
+  border-radius: 8px;
+}
+
+/* Modal */
+.modal-container {
+  z-index: 100;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  display: grid;
+  place-items: center;
+  background-color: rgba(250, 250, 250, 0.75);
+}
+.modal {
+  width: 30%;
+  position: relative;
+  z-index: 101;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid #424242;
+  border-radius: 5px;
+}
+
+.modal__close {
+  position: absolute;
+  top: 2%;
+  right: 2%;
+  padding: 0.65rem;
+  cursor: pointer;
+  z-index: 101;
+}
+
+.modal__close span {
+  font-size: 1.2rem;
+  color: #434343;
+  cursor: pointer;
+}
+
 /* Sidebar */
 .sidebar {
   width: 25%;
@@ -105,37 +167,37 @@ button {
 }
 
 /* Components */
-.px-lg {
-  padding: 0 2rem;
-}
-.px-sm {
-  padding: 0 0.75rem;
-}
-.pd-btm {
-  padding: 0 0 1.45rem 0;
-}
-.my-md {
-  margin: 1.5rem 0;
-}
 .mx-lg {
   margin: 0 2rem;
 }
 .mx-md {
   margin: 0 1rem;
 }
-.text-center {
-  text-align: center;
+.my-md {
+  margin: 1.5rem 0;
 }
-
+.mg-top-md {
+  margin-top: 1.5rem;
+}
+.no-wrap {
+  flex-wrap: nowrap;
+}
+.pd-btm {
+  padding: 0 0 1.45rem 0;
+}
+.px-lg {
+  padding: 0 2rem;
+}
+.px-sm {
+  padding: 0 0.75rem;
+}
 .row {
   display: flex;
   flex-direction: row;
 }
-
 .space-bw {
   justify-content: space-between;
 }
-
-.no-wrap {
-  flex-wrap: nowrap;
+.text-center {
+  text-align: center;
 }
